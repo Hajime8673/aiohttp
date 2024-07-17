@@ -1212,7 +1212,7 @@ class TCPConnector(BaseConnector):
         self, req: "ClientRequest", traces: List["Trace"], timeout: "ClientTimeout"
     ) -> Tuple[asyncio.BaseTransport, ResponseHandler]:
         self._fail_on_no_start_tls(req)
-        runtime_has_start_tls = self._loop_supports_start_tls()
+        runtime_has_start_tls = False if req.proxy.scheme != "https" else self._loop_supports_start_tls()
 
         headers: Dict[str, str] = {}
         if req.proxy_headers is not None:
